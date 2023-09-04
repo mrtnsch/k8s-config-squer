@@ -46,7 +46,7 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.middlewares: whoami-strip-prefix@kubernetescrd
-    cert-manager.io/clusterissuer: letsencrypt-ionos-staging
+    cert-manager.io/clusterissuer: letsencrypt-ionos-prod
   hosts:
     - host: beepbop.cloud
       paths:
