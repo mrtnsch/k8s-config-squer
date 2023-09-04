@@ -1,0 +1,22 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-beepbop-cloud
+  namespace: kube-system
+spec:
+  secretName: wildcard-beepbop-cloud
+  dnsNames:
+    - "beepbop.cloud"
+    - "*.beepbop.cloud"
+  issuerRef:
+    name: letsencrypt-ionos-prod
+    kind: ClusterIssuer
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: TLSStore
+metadata:
+  name: default
+  namespace: kube-system
+spec:
+  defaultCertificate:
+    secretName: wildcard-beepbop-cloud
