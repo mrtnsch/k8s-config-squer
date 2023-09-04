@@ -59,3 +59,12 @@ spec:
           {{- end }}
     {{- end }}
 {{- end }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix
+spec:
+  stripPrefix:
+    prefixes:
+      - /whoami

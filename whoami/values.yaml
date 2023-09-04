@@ -45,11 +45,12 @@ ingress:
   className: ""
   annotations:
     kubernetes.io/ingress.class: traefik
-#  hosts:
-#    - host: chart-example.local
-#      paths:
-#        - path: /
-#          pathType: ImplementationSpecific
+    traefik.ingress.kubernetes.io/router.middlewares: whoami-strip-prefix@kubernetescrd
+  hosts:
+    - host: beepbop.cloud
+      paths:
+        - path: /whoami
+          pathType: Prefix
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
