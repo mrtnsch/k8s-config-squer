@@ -1,0 +1,22 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-your-domain-here # Change all occurences if you like
+  namespace: kube-system
+spec:
+  secretName: wildcard-your-domain-here # Change all occurences if you like
+  dnsNames:
+    - "yourdomain.here" # Update this value
+    - "*.yourdomain.here" # Update this value
+  issuerRef:
+    name: letsencrypt-ionos-prod
+    kind: ClusterIssuer
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: TLSStore
+metadata:
+  name: default
+  namespace: kube-system
+spec:
+  defaultCertificate:
+    secretName: wildcard-your-domain-here # Change all occurences if you like
