@@ -48,14 +48,14 @@ ingress:
     traefik.ingress.kubernetes.io/router.middlewares: whoami-strip-prefix@kubernetescrd
     cert-manager.io/clusterissuer: letsencrypt-ionos-prod
   hosts:
-    - host: beepbop.cloud
+    - host: '*.beepbop.cloud'
       paths:
         - path: /whoami
           pathType: Prefix
   tls:
-    - secretName: example-ionos-tls-staging
+    - secretName: example-ionos-tls-prod
       hosts:
-        - beepbop.cloud
+        - '*.beepbop.cloud'
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
