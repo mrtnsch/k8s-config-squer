@@ -48,7 +48,7 @@ ingress:
     traefik.ingress.kubernetes.io/router.middlewares: whoami-strip-prefix@kubernetescrd
     cert-manager.io/cluster-issuer: letsencrypt-ionos-prod
   hosts:
-    - host: '*.beepbop.cloud'
+    - host: 'beepbop.cloud'
       paths:
         - path: /whoami
           pathType: Prefix
