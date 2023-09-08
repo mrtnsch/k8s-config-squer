@@ -1,12 +1,12 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: example-http01
+  name: example-http01-cert
   namespace: cert-manager
 spec:
   secretName: example-http01-cert-secret
   dnsNames:
-    - "beepbop.cloud"
+    - "beepbop.cloud" # change this to your domain
   issuerRef:
-    name: example-issuer
-    kind: Issuer
+    name: letsencrypt-http01-staging-clusterissuer
+    kind: ClusterIssuer

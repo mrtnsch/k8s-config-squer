@@ -57,7 +57,7 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.middlewares: rusturlshortener-strip-prefix@kubernetescrd
-
+    cert-manager.io/cluster-issuer: letsencrypt-http01-prod-clusterissuer
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
@@ -65,10 +65,10 @@ ingress:
       paths:
         - path: /shortme
           pathType: Prefix
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+  tls:
+    - secretName: certificate-rust-shortener
+      hosts:
+        - beepbop.cloud
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
