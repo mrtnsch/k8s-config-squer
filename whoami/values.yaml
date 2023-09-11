@@ -46,12 +46,16 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.middlewares: whoami-strip-prefix@kubernetescrd
+    cert-manager.io/cluster-issuer: letsencrypt-http01-prod-clusterissuer
   hosts:
     - host: 'beepbop.cloud'
       paths:
         - path: /whoami
           pathType: Prefix
-  tls: []
+  tls:
+    - secretName: certificate-whoami
+      hosts:
+        - beepbop.cloud
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
