@@ -1,0 +1,17 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-http01-prod-clusterissuer
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: <ADD YOUR EMAIL HERE> # update this field
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: issuer-account-key-prod
+    solvers:
+      - http01:
+          ingress:
+            ingressClassName: traefik
