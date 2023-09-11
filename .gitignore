@@ -1,0 +1,14 @@
+~$Workshop slides.pptx
+github-deploy-key
+kubeconfig
+Workshop slides.pptx
+ssh-key-2023-09-01.key.pub
+ssh-key-2023-09-01.key
+github-deploy-key.pub
+.idea
+/certificate-resources/dns-challenge/ionos-secret.yaml
+/certificate-resources/dns-challenge/letsencrypt-prod.yaml
+/certificate-resources/dns-challenge/letsencrypt-staging.yaml
+/certificate-resources/dns-challenge/tlsstore.yaml
+/certificate-resources/http01-challenge/clusterissuer-prod-http01.yaml
+/certificate-resources/http01-challenge/clusterissuer-staging-http01.yaml
