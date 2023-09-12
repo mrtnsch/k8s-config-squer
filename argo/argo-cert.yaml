@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: argocd-cert
+  namespace: argocd
+spec:
+  secretName: argocd-cert-secret
+  dnsNames:
+    - "argocd.beepbop.cloud" # change this to your domain
+  issuerRef:
+    name: letsencrypt-http01-prod-clusterissuer
+    kind: ClusterIssuer
