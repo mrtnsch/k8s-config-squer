@@ -1,0 +1,58 @@
+# Important note: If you want to use path-based routing, you need to adjust your argocd-server deployment. Run:
+#
+# kubectl edit deployment argocd-server -n argocd
+#
+# Then find the line where the server is started, can look like:
+# containers:
+# - args:
+#   - /usr/local/bin/argocd-server
+#
+# And add the following:
+#    - --basehref
+#    - /proxy
+#    - --staticassets
+#    - /shared/app
+# Take care of proper indentation.
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argocd-server-pathprefix
+  namespace: argocd
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`beepbop.cloud`) && PathPrefix(`/argocd`)
+      priority: 10
+      services:
+        - name: argocd-server
+          port: 80
+      middlewares:
+        - name: stripprefix-argocd
+          namespace: argocd
+    - kind: Rule
+      match: Host(`beepbop.cloud`) && PathPrefix(`/argocd`) && Headers(`Content-Type`, `application/grpc`)
+      priority: 11
+      services:
+        - name: argocd-server
+          port: 80
+          scheme: h2c
+      middlewares:
+        - name: stripprefix-argocd
+          namespace: argocd
+  tls:
+    secretName: argocd-cert-pathprefix-secret
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: stripprefix-argocd
+  namespace: argocd
+spec:
+  stripPrefix:
+    prefixes:
+      - /argocd
+
