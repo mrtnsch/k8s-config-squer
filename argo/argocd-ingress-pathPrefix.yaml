@@ -24,7 +24,7 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`beepbop.cloud`) && PathPrefix(`/argocd`)
+      match: Host(`beepbop.cloud`) && PathPrefix(`/argocd`) # change this to `yourdomain.xyz`
       priority: 10
       services:
         - name: argocd-server
@@ -33,7 +33,7 @@ spec:
         - name: stripprefix-argocd
           namespace: argocd
     - kind: Rule
-      match: Host(`beepbop.cloud`) && PathPrefix(`/argocd`) && Headers(`Content-Type`, `application/grpc`)
+      match: Host(`beepbop.cloud`) && PathPrefix(`/argocd`) && Headers(`Content-Type`, `application/grpc`) # change this to `yourdomain.xyz`
       priority: 11
       services:
         - name: argocd-server
