@@ -21,4 +21,4 @@ spec:
           port: 80
           scheme: h2c
   tls:
-    secretName: argocd-cert-secret
+    secretName: argocd-cert-secret-subdomain # The secret where the certificate is read from

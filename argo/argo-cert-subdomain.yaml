@@ -1,10 +1,10 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: argocd-cert
+  name: argocd-cert-subdomain
   namespace: argocd
 spec:
-  secretName: argocd-cert-secret
+  secretName: argocd-cert-secret-subdomain # The secret in which the certificate will be stored
   dnsNames:
     - "argocd.beepbop.cloud" # change this to your domain
   issuerRef:
