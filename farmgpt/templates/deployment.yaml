@@ -31,7 +31,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: mrtnschwz/farmgpt-backend:latest | default .Chart.AppVersion }}"
+          image: "mrtnschwz/farmgpt-backend:latest"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
@@ -47,10 +47,10 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-        - name: farmgpt-frontend
+        - name: "farmgpt-frontend:latest"
           securityContext:
             { { - toYaml .Values.securityContext | nindent 12 } }
-          image: mrtnschwz/farmgpt-fe:latest | default .Chart.AppVersion }}"
+          image: "mrtnschwz/farmgpt-fe:latest"
           imagePullPolicy: { { .Values.image.pullPolicy } }
           ports:
             - name: frontend
