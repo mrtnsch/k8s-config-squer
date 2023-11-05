@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "farmgpt.fullname" . }}-cm
+  labels:
+    {{- include "farmgpt.labels" . | nindent 4 }}
+data:
+  env-config.js: |
+    window._env_ = {
+        {{- $output := "" }}
+        {{- range $map := .Values.image.frontendEnv }}
+            {{- $output = printf "%s'%s':'%s'," $output (get $map "name") (get $map "value") }}
+        {{- end }}
+        {{- trimSuffix "," $output  }}
+    }
+
+

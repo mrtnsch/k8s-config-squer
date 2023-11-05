@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "farmgpt.fullname" . }}
+  labels:
+    {{- include "farmgpt.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "farmgpt.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "farmgpt.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "farmgpt.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: mrtnschwz/farmgpt-backend:latest | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /api
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /api
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+        - name: farmgpt-frontend
+          securityContext:
+            { { - toYaml .Values.securityContext | nindent 12 } }
+          image: mrtnschwz/farmgpt-fe:latest | default .Chart.AppVersion }}"
+          imagePullPolicy: { { .Values.image.pullPolicy } }
+          ports:
+            - name: frontend
+              containerPort: { { .Values.service.port } }
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          volumeMounts:
+            - name: frontend-config
+              mountPath: "/opt/static/env"
+              readOnly: true
+          resources:
+            { { - toYaml .Values.resources | nindent 12 } }
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: frontend-config
+          configMap:
+            name: { { include "farmgpt.fullname" . } }-cm
+            items:
+                - key: env-config.js
+                  path: env-config.js
